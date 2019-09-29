@@ -1,5 +1,7 @@
-# useEtherProvider
-ethers provider with react hooks api
+# use-ether-provider
+Inject `ethers.js` provider into react component by using react's new hooks api, no more HOC.
+
+[![npm version](https://badge.fury.io/js/use-ether-provider.svg)](https://badge.fury.io/js/use-ether-provider)
 
 # Prepare
 ```
