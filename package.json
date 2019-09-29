@@ -11,7 +11,13 @@
   ],
   "description": "ethers provider inject into react component by hooks api",
   "main": "dist/index.js",
-  "repository": "git@github.com:BigMurry/useEtherProvider.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BigMurry/use-ether-provider.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BigMurry/use-ether-provider/issues"
+  },
   "author": "BigMurry <hhdiao@siom.ac.cn>",
   "license": "MIT",
   "private": false,
