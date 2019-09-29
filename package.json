@@ -1,14 +1,23 @@
 {
   "name": "use-ether-provider",
   "version": "1.0.2",
-  "description": "ethers provider meet with react hooks api",
-  "main": "lib/index.js",
+  "keywords": [
+    "ethereum",
+    "ethers",
+    "react",
+    "hooks",
+    "provider",
+    "metamask"
+  ],
+  "description": "ethers provider inject into react component by hooks api",
+  "main": "dist/index.js",
   "repository": "git@github.com:BigMurry/useEtherProvider.git",
   "author": "BigMurry <hhdiao@siom.ac.cn>",
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "npx babel src --out-dir lib"
+    "build": "npx babel src --out-dir dist",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "lodash": "^4.17.15"
