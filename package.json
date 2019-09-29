@@ -1,6 +1,6 @@
 {
   "name": "use-ether-provider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ethers provider meet with react hooks api",
   "main": "lib/index.js",
   "repository": "git@github.com:BigMurry/useEtherProvider.git",
