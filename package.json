@@ -1,0 +1,20 @@
+{
+  "name": "useEtherProvider",
+  "version": "1.0.0",
+  "description": "ethers provider meet with react hooks api",
+  "main": "index.js",
+  "repository": "git@github.com:BigMurry/useEtherProvider.git",
+  "author": "BigMurry <hhdiao@siom.ac.cn>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "peerDependencies": {
+    "ethers": "^4.0.37",
+    "react": "^16.10.1"
+  },
+  "devDependencies": {
+    "xhstandard": "^2.0.0"
+  }
+}
