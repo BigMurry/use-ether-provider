@@ -1,4 +1,4 @@
-# useEtherProvider
+# use-ether-provider
 ethers provider with react hooks api
 
 # Prepare
