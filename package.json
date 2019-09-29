@@ -1,5 +1,5 @@
 {
-  "name": "useEtherProvider",
+  "name": "use-ether-provider",
   "version": "1.0.0",
   "description": "ethers provider meet with react hooks api",
   "main": "index.js",

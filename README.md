@@ -3,13 +3,13 @@ ethers provider with react hooks api
 
 # Prepare
 ```
-yarn add ethers react react-dom useEtherProvider
+yarn add ethers react react-dom use-ether-provider
 ```
 
 # Example
 ```javascript
 import * as ethers from 'ethers';
-import {EtherProvider, useEtherProvider, useAccount} from 'useEtherProvider';
+import {EtherProvider, useEtherProvider, useAccount} from 'use-ether-provider';
 
 // USDT for example
 const USDT = {
