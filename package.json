@@ -2,11 +2,14 @@
   "name": "use-ether-provider",
   "version": "1.0.0",
   "description": "ethers provider meet with react hooks api",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": "git@github.com:BigMurry/useEtherProvider.git",
   "author": "BigMurry <hhdiao@siom.ac.cn>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "build": "npx babel src --out-dir lib"
+  },
   "dependencies": {
     "lodash": "^4.17.15"
   },
@@ -15,6 +18,11 @@
     "react": "^16.10.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
     "xhstandard": "^2.0.0"
   }
 }
