@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import * as ethers from 'ethers';
 import _get from 'lodash/get';
+import PropTypes from 'prop-types';
 
 const globalStore = {
   rawWeb3: null,
@@ -157,6 +158,13 @@ export const EtherProvider = function({networks, backupJsonRpcUrl, ms, children}
       {children}
     </EtherContext.Provider>
   );
+};
+
+EtherProvider.propTypes = {
+  networks: PropTypes.arrayOf(PropTypes.Number),
+  backupJsonRpcUrl: PropTypes.string,
+  ms: PropTypes.Number,
+  children: PropTypes.node.isRequired
 };
 
 export function useEtherProvider() {
