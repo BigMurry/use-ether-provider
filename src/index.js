@@ -161,9 +161,9 @@ export const EtherProvider = function({networks, backupJsonRpcUrl, ms, children}
 };
 
 EtherProvider.propTypes = {
-  networks: PropTypes.arrayOf(PropTypes.Number),
+  networks: PropTypes.arrayOf(PropTypes.number),
   backupJsonRpcUrl: PropTypes.string,
-  ms: PropTypes.Number,
+  ms: PropTypes.number,
   children: PropTypes.node.isRequired
 };
 
