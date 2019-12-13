@@ -86,7 +86,7 @@ async function activeProvider(networks = [1, 3, 4, 5], backupJsonRpcUrl) {
   let ok = false;
   if (provd) {
     ok = true;
-    const network = parseInt(await provd.getNetwork(), 10);
+    const {chainId: network} = await provd.getNetwork();
     if (~networks.indexOf(network)) {
       ok = await tryEnableWeb3();
     }
