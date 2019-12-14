@@ -4,10 +4,16 @@ import _get from 'lodash/get';
 import PropTypes from 'prop-types';
 
 const globalStore = {
-  rawWeb3: null,
-  web3: null,
-  jsonRpcUrl: null,
-  jsonRpc: null
+  injectProvider: {
+    provider: null,
+    network: 0,
+    raw: null
+  },
+  backupProvider: {
+    provider: null,
+    network: 0,
+    url: null
+  }
 };
 
 function denyMetamask() {
@@ -54,39 +60,59 @@ export async function tryEnableWeb3(forceEnable) {
   return enabled;
 }
 
-function setProvider(jsonRpcUrl) {
+async function loadProvider(jsonRpcUrl) {
   if (typeof window === 'undefined') {
     return null;
   }
   const current = _get(window, ['ethereum'], _get(window, ['web3', 'currentProvider'], null));
+  const {injectProvider, backupProvider} = globalStore;
 
   // create browser web3 provider
-  if (!globalStore.web3 && current && current !== globalStore.rawWeb3) {
-    globalStore.web3 = new ethers.providers.Web3Provider(current);
+  if (!injectProvider.provider && current) {
+    injectProvider.provider = new ethers.providers.Web3Provider(current);
+    const {chainId: network} = await injectProvider.provider.getNetwork();
+    injectProvider.network = network;
+
+    if (current !== injectProvider.raw) {
+      current.on('networkChanged', () => { // https://metamask.github.io/metamask-docs/API_Reference/Ethereum_Provider#ethereum.on(eventname%2C-callback)-2
+        // console.log('network changed');
+        injectProvider.provider = null;
+        loadProvider(jsonRpcUrl);
+      });
+
+      current.on('accountsChanged', () => {
+        // console.log('accounts changed');
+        injectProvider.provider = null;
+        loadProvider(jsonRpcUrl);
+      });
+    }
   }
 
   // set web3 raw provider
-  globalStore.rawWeb3 = current;
+  injectProvider.raw = current;
 
   // create JsonRpc web3 provider
-  if (!globalStore.jsonRpc && jsonRpcUrl && jsonRpcUrl !== globalStore.jsonRpcUrl) {
-    globalStore.jsonRpc = new ethers.providers.JsonRpcProvider(jsonRpcUrl);
+  if (!backupProvider.provider && jsonRpcUrl && jsonRpcUrl !== backupProvider.url) {
+    backupProvider.provider = new ethers.providers.JsonRpcProvider(jsonRpcUrl);
+    const {chainId: network} = await backupProvider.provider.getNetwork();
+    backupProvider.network = network;
   }
 
-  globalStore.jsonRpcUrl = jsonRpcUrl;
+  backupProvider.url = jsonRpcUrl;
 }
 
 function getProvider() {
-  return globalStore.web3 || globalStore.jsonRpc;
+  return globalStore.injectProvider.provider
+    ? globalStore.injectProvider
+    : globalStore.backupProvider;
 }
 
 async function activeProvider(networks = [1, 3, 4, 5], backupJsonRpcUrl) {
-  setProvider(backupJsonRpcUrl);
-  const provd = getProvider();
+  await loadProvider(backupJsonRpcUrl);
+  const {provider: provd, network} = getProvider();
   let ok = false;
   if (provd) {
     ok = true;
-    const {chainId: network} = await provd.getNetwork();
     if (~networks.indexOf(network)) {
       ok = await tryEnableWeb3();
     }
@@ -129,9 +155,11 @@ export const EtherProvider = function({networks, backupJsonRpcUrl, ms, children}
   const [provider, setProvider] = useState(null);
   const updateProvider = async () => {
     await retryActiveProvider(networks, backupJsonRpcUrl);
-    const currentProvider = getProvider();
-    if (currentProvider && currentProvider !== provider) {
+    const {provider: currentProvider, network} = getProvider();
+    if (currentProvider && currentProvider !== provider && ~networks.indexOf(network)) {
       setProvider(currentProvider);
+    } else {
+      setProvider(null);
     }
   };
 
